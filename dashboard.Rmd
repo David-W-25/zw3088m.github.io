@@ -1,0 +1,186 @@
+---
+title: "dashboard"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(tidyverse)
+library(p8105.datasets)
+library(forcats)
+library(plotly)
+```
+
+Row 
+-----------------------------------------------------------------------
+
+### Scatterplot of Relative Max Temperature in Year 2010 Compared to Adirondack Park
+
+```{r}
+data("ny_noaa")
+ny_noaa =
+  ny_noaa |>
+  drop_na(tmax) |>
+  separate(date, into = c("year", "month", "day"), remove = FALSE, sep = "-") |>
+  filter(id == "USW00094728" | id == "USW00014733" | id == "USC00304102" | id == "USC00304174",
+         year == "2010") |>
+  mutate(
+    name = case_when(
+      id == "USW00014733" ~ "Buffalo",  #2010
+      id == "USC00304102" ~ "Adirondack_Park", #2010
+      id == "USW00094728" ~ "Central_Park", #2010
+      id == "USC00304174" ~ "Ithaca" #2010
+    ),
+    tmax = as.numeric(tmax),
+    tmax = tmax / 10,
+  ) |>
+  group_by(date) |>
+  summarise(
+    Buffalo = tmax[name == "Buffalo"] - tmax[name == "Adirondack_Park"],
+    Central_Park = tmax[name == "Central_Park"] - tmax[name == "Adirondack_Park"],
+    Ithaca = tmax[name == "Ithaca"] - tmax[name == "Adirondack_Park"],
+  ) |>
+  pivot_longer(
+    Buffalo : Ithaca,
+    names_to = "name",
+    values_to = "tmax"
+  )
+
+ny_noaa |>
+  plot_ly(x = ~date, y = ~tmax, type = 'scatter',
+  mode = 'markers', color = ~name, colors = "Set1") |>
+  layout(
+    xaxis = list(title = "Date",
+                 zeroline = TRUE),
+    yaxis = list(title = "Relative Max Temperature (ºC)",
+                 zeroline = TRUE)
+  )
+
+```
+
+### Boxplot of Minimum Temperature in Jan, Apr and Jul From 1980 to 2020 in Four Places
+
+```{r}
+data("ny_noaa")
+ny_noaa =
+  ny_noaa |>
+  drop_na(tmin) |>
+  separate(date, into = c("year", "month", "day"), remove = FALSE, sep = "-") |>
+  mutate(year = as.numeric(year)) |>
+  filter(id == "USW00094728" | id == "USW00014733" | id == "USC00304102" | id == "USC00304174",
+         year >= 1980 & year <= 2020,
+         month == "07" | month == "01" |month == "04") |>
+  mutate(
+    name = case_when(
+      id == "USW00014733" ~ "Buffalo",  #2010
+      id == "USC00304102" ~ "Adirondack_Park", #2010
+      id == "USW00094728" ~ "Central_Park", #2010
+      id == "USC00304174" ~ "Ithaca" #2010
+    ),
+    tmin = as.numeric(tmin),
+    tmin = tmin / 10,
+  )
+  
+ny_noaa |>
+  plot_ly(x = ~month, y = ~tmin, color = ~name, type = "box", colors = "Set3") |>
+  layout(boxmode = "group",
+         xaxis = list(title = "Month",
+                 zeroline = TRUE),
+         yaxis = list(title = "Minimum Temperature (ºC)",
+                 zeroline = TRUE)
+  )
+
+```
+
+Row 
+-----------------------------------------------------------------------
+
+### Histogram of Blizzard (>100 mm per day) Severity in Three Places from 1980 to 2020
+
+```{r}
+data("ny_noaa")
+ny_noaa =
+  ny_noaa |>
+  drop_na(snow) |>
+  separate(date, into = c("year", "month", "day"), remove = FALSE, sep = "-") |>
+  mutate(
+    year = as.numeric(year),
+    snow = as.numeric(snow)) |>
+  filter(id == "USW00094728" | id == "USW00014733" | id == "USC00304102" | id == "USC00304174",
+         year >= 1980 & year <= 2020,
+         snow > 100
+         ) |>
+  mutate(
+    name = case_when(
+      id == "USW00014733" ~ "Buffalo",  #2010
+      id == "USC00304102" ~ "Adirondack_Park", #2010
+      id == "USW00094728" ~ "Central_Park", #2010
+      id == "USC00304174" ~ "Ithaca" #2010
+    )
+  )
+   
+ny_noaa |>
+  plot_ly(alpha = 0.5) |>
+  add_histogram(
+    x = ~snow[name == "Adirondack_Park"],
+    name = "Adirondack Park"
+    ) |>
+  add_histogram(
+    x = ~snow[name == "Buffalo"],
+    name = "Buffalo"
+    ) |>
+  add_histogram(
+    x = ~snow[name == "Central_Park"],
+    name = "Central Park"
+    ) |>
+  layout(barmode = "overlay",
+         xaxis = list(title = "Snow (mm)",
+                      zeroline = TRUE),
+         yaxis = list(title = "Count",
+                      zeroline = TRUE)
+         )
+```
+
+### Top 20 Station Average Anuual Precipitation from 1980 to 2020
+
+```{r}
+data("ny_noaa")
+ny_noaa =
+  ny_noaa |>
+  drop_na(prcp) |>
+  separate(date, into = c("year", "month", "day"), remove = FALSE, sep = "-") |>
+  mutate(
+    year = as.numeric(year),
+    prcp = as.numeric(prcp)) |>
+  filter(year >= 1980 & year <= 2020,
+         snow > 100
+         ) |>
+  group_by(id, year) |>
+  summarise(
+    ana_prcp = sum(prcp)
+  ) |>
+  ungroup() |>
+  group_by(id) |>
+  summarise(
+    ave_prcp = mean(ana_prcp)
+  ) |>
+  ungroup() |>
+  mutate(id = fct_reorder(id, ave_prcp)) |>
+  arrange(desc(ave_prcp)) |>
+  head(20)
+
+ny_noaa |>
+  plot_ly(x = ~id, y = ~ave_prcp,
+          color = ~factor(id), type = "bar", colors = "viridis"
+  ) |>
+  layout(
+    xaxis = list(title = "Station ID",
+                 zeroline = TRUE),
+    yaxis = list(title = "Average Annual Precipitation (mm)",
+                 zeroline = TRUE)
+  )
+
+```

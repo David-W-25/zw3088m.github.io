@@ -1,0 +1,16 @@
+name: "Web design"
+output_dir: "."
+navbar:
+  title: "Home"
+  right:
+    - text: "About"
+      href: Resume.pdf
+    - text: "Dashboard"
+      href: dashboard.html
+    - icon: fa-envelope fa-lg
+      href: mailto:<zw3088@columbia.edu>
+    - icon: fa-github fa-lg
+      href: http://github.com/David-W-25/
+output:
+  html_document:
+    theme: lumen
