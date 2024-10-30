@@ -1,5 +1,5 @@
 ---
-title: "dashboard"
+title: "Plots Using Dataset 'ny_noaa'"
 output: 
   flexdashboard::flex_dashboard:
     orientation: columns

@@ -5,7 +5,7 @@ navbar:
   right:
     - text: "About"
       href: Resume.pdf
-    - text: "Dashboard"
+    - text: "Plots"
       href: dashboard.html
     - icon: fa-envelope fa-lg
       href: mailto:<zw3088@columbia.edu>

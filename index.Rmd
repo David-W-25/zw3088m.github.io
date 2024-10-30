@@ -16,15 +16,19 @@ This web includes information of myself and academic resume, giving a snapshot o
 
 My name is David, born and raised in [Beijing](https://www.google.com/maps/place/Beijing,+China/@39.9389436,116.0678168,10z/data=!3m1!4b1!4m6!3m5!1s0x35f05296e7142cb9:0xb9625620af0fa98a!8m2!3d39.904211!4d116.407395!16zL20vMDE5MTQ?entry=ttu&g_ep=EgoyMDI0MTAyMS4xIKXMDSoASAFQAw%3D%3D).
 
+
 ### Life Experience
 
-I used to study in High School Affiliated to Renmin University, and earned my dual bachelor degree in [Peking University]. Right now I am a MS student in Epidemiology track.
+I used to study in High School Affiliated to Renmin University, and earned my dual bachelor degree in [Peking University](https://english.pku.edu.cn/index.html). Right now I am a MS student in Epidemiology track.
+
 
 ![](At_conference.png)
 This is me at conference.
 
+
 ![](Lifestyle.png)
-This is me on a trip to Tibet plateau.
+This is me on a trip to [Tibet plateau](https://www.google.com/maps/place/37°30'23.2%22N+93°56'43.1%22E/@37.3364499,93.7816942,9.18z/data=!4m4!3m3!8m2!3d37.506449!4d93.945297?entry=ttu&g_ep=EgoyMDI0MTAyNy4wIKXMDSoASAFQAw%3D%3D).
+
 
 
 ### Research Experience
@@ -45,6 +49,7 @@ Feb 2023 — Dec 2023 Research Assistant, PI-Professor Wang Bin, Reproductive He
   Doing a small project imitating NEJM articles, mainly using machine learning methods to deal with big data.
   Help the project of An Analytical Framework to Expedite Screening the Clinical Factors Associated with Reproductive Outcomes of Women Undergoing IVF-ET Treatment: A Multi-center Study in China
 
+
 ### Internship Experience
 
 Aug 2023 — Sep 2023 Mentored by Section Chief Zhang Yu,
@@ -55,13 +60,16 @@ Feb 2022 — Jan 2023 Mentored by Doctor Zhuo Ling, Doctor You Weiwei, Doctor Wa
   Peking University Third Hospital
   Gained valuable clinical insights.
 
+
 ## Useful links
 
 Click the button of **envelop** top right to access personal email.
 Click the button of **Github** top right to access personal Github page.
 For more information, please click the **About** top right.
 
+
+
 # Problem 2: Dashborad of different plots
 
-Click Dashboard button **Plots** on the nevigation panel to access plots.
+Click Dashboard button **Plots** on the navigation panel to access plots, using dataset of **ny_noaa**.
 
